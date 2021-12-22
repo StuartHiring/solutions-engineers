@@ -1,10 +1,15 @@
-import { Module } from '@nestjs/common';
-import { CouriersModule } from './couriers/couriers.module';
+import {  Module } from '@nestjs/common';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { ConfigModule } from '@nestjs/config';
 
+import ormconfig from './db/ormconfig'
 
 @Module({
-  imports: [CouriersModule],
+  imports: [
+    ConfigModule.forRoot(),
+    TypeOrmModule.forRoot(ormconfig())
+  ],
   controllers: [],
   providers: [],
 })
-export class AppModule {}
+export class AppModule { }
