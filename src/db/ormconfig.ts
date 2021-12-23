@@ -1,7 +1,7 @@
-import { ConnectionOptions } from 'typeorm';
+import { TypeOrmModuleOptions } from '@nestjs/typeorm';
 
 
-export default (): ConnectionOptions => {
+export default (): TypeOrmModuleOptions => {
 
     return {
         type: 'postgres',
@@ -10,7 +10,7 @@ export default (): ConnectionOptions => {
         username: process.env.POSTGRES_USER,
         password: process.env.POSTGRES_PASSWORD,
         database: process.env.POSTGRES_DB,
-        entities: [__dirname + '/db/entities/*.entity.ts'],
+        autoLoadEntities:true,
         synchronize: true,
 
     }
