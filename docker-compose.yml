@@ -1,0 +1,12 @@
+version: '3'
+services:
+  database:
+    image: "postgres"
+    restart: always
+    env_file:
+      - .env
+    ports:
+     - '5433:5432'
+
+    # volumes:
+    #   - database-data:/var/lib/postgresql/data/ # persist data even if container shuts down
