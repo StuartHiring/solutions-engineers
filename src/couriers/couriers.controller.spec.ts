@@ -12,6 +12,7 @@ describe('CouriersController', () => {
     useFactory: () => ({
       findCouriers: jest.fn(() => { }),
       createCourier: jest.fn(() => { }),
+      updateCourier: jest.fn(() => { }),
     }),
   }
 

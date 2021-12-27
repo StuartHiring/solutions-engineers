@@ -29,8 +29,9 @@ export class CouriersService {
 
         if (courier) {
             throw new ConflictException(`Courier with id ${id} allready exists`)
-
         }
+
+        
         return await this.couriers_repository.save({
             max_capacity,
             available_capacity: max_capacity,
