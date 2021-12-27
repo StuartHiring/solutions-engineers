@@ -56,6 +56,17 @@ describe('CouriersController', () => {
     controller.createCourier(courier);
     expect(spy_service.createCourier).toHaveBeenCalledWith(courier);
   });
+  it('should call updateCourier', async () => {
+    controller.updateCourier({ id: 1, add_item: { volume: 45 } });
+    expect(spy_service.updateCourier).toHaveBeenCalled();
+  });
+
+  it('should call updateCourier with correct parameters', async () => {
+    const update_courier_data = { id: 1, add_item: { volume: 45 } }
+    controller.updateCourier(update_courier_data);
+
+    expect(spy_service.updateCourier).toHaveBeenCalledWith(update_courier_data);
+  });
 
 
 });
