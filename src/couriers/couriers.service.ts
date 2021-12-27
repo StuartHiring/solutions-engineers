@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Courier } from 'src/db/entities/courier.entity';
+import { Courier } from '../db/entities/courier.entity';
 import { FindManyOptions, MoreThanOrEqual, Repository } from 'typeorm';
 import { FindCourierQueryDto } from './dto/findCourierQuery.dto';
 
