@@ -10,10 +10,11 @@ describe('CouriersController', () => {
   const CourierServiceSpy = {
     provide: CouriersService,
     useFactory: () => ({
-      findCouriers: jest.fn(() => {}),
+      findCouriers: jest.fn(() => { }),
+      createCourier: jest.fn(() => { }),
     }),
   }
- 
+
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -41,6 +42,18 @@ describe('CouriersController', () => {
 
     controller.findCouriers({ capacity_required });
     expect(spy_service.findCouriers).toHaveBeenCalledWith({ capacity_required });
+  });
+
+  it('should call createCourier', async () => {
+    controller.createCourier({ id: 1, max_capacity: 45 });
+    expect(spy_service.createCourier).toHaveBeenCalled();
+  });
+
+  it('should call createCourier with correct parameters', async () => {
+    const courier = { id: 1, max_capacity: 45 }
+
+    controller.createCourier(courier);
+    expect(spy_service.createCourier).toHaveBeenCalledWith(courier);
   });
 
 
