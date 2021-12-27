@@ -6,12 +6,11 @@ import { MoreThanOrEqual, Repository } from 'typeorm';
 import { MockType } from 'test/types/mockType';
 
 export const repository_mock_factory: () => MockType<Repository<any>> = jest.fn(() => ({
-
   find: jest.fn(entity => entity),
   save: jest.fn(entity => entity),
   findOne: jest.fn(_ => null),
-
 }));
+
 describe('CouriersService', () => {
   let service: CouriersService;
 
@@ -37,12 +36,12 @@ describe('CouriersService', () => {
   });
 
 
-  it('should call find method', async() => {
+  it('should call find method', async () => {
     await service.findCouriers({})
     expect(repository_mock.find).toHaveBeenCalled();
 
   });
-  it('should call find method with correct parameters',async () => {
+  it('should call find method with correct parameters', async () => {
     const capacity_required = 45
     await service.findCouriers({ capacity_required })
     expect(repository_mock.find).toHaveBeenCalledWith({ where: { available_capacity: MoreThanOrEqual(capacity_required) } });
@@ -58,5 +57,26 @@ describe('CouriersService', () => {
     const courier = { id: 1, max_capacity: 45 }
     await service.createCourier(courier)
     expect(repository_mock.save).toHaveBeenCalledWith({ id: 1, max_capacity: 45, available_capacity: 45 });
+  });
+  it('should call updateCourier method', async () => {
+    repository_mock.findOne.mockReturnValue({})
+    const update_courier_data = { id: 1, add_item: { volume: 5 } }
+    await service.updateCourier(update_courier_data)
+    expect(repository_mock.save).toHaveBeenCalled();
+
+  });
+  it('should  call updateCourier method with correct parameters when adding item', async () => {
+    repository_mock.findOne.mockReturnValue({ available_capacity: 30, max_capacity: 45, id: 1 })
+
+    const update_courier_data = { id: 1, add_item: { volume: 5 } }
+    await service.updateCourier(update_courier_data)
+    expect(repository_mock.save).toHaveBeenCalledWith({ id: 1, max_capacity: 45, available_capacity: 25 });
+  });
+  it('should  call updateCourier method with correct parameters when removing item', async () => {
+    repository_mock.findOne.mockReturnValue({ available_capacity: 30, max_capacity: 45, id: 1 })
+
+    const update_courier_data = { id: 1, remove_item: { volume: 5 } }
+    await service.updateCourier(update_courier_data)
+    expect(repository_mock.save).toHaveBeenCalledWith({ id: 1, max_capacity: 45, available_capacity: 35 });
   });
 });
