@@ -1,8 +1,11 @@
-import { IsNotEmpty } from 'class-validator';
+import { IsNotEmpty, IsNumber, IsNumberString } from 'class-validator';
 
 export class CreateCourierDto {
   @IsNotEmpty()
+  @IsNumber()
   readonly max_capacity: number;
+  
   @IsNotEmpty()
-  readonly id: number;
+  @IsNumber()
+  id: number;
 }
