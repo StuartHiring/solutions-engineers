@@ -1,8 +1,9 @@
-import { Body, Controller, Get, Post, Query } from '@nestjs/common';
+import { Body, Controller, Get, Post, Put, Query } from '@nestjs/common';
 import { Courier } from 'src/db/entities/courier.entity';
 import { CouriersService } from './couriers.service';
 import { CreateCourierDto } from './dto/createCourier.dto';
 import { FindCourierQueryDto } from './dto/findCourierQuery.dto';
+import { UpdateCourierDto } from './dto/updateCourier.dto';
 
 @Controller('couriers')
 export class CouriersController {
@@ -15,6 +16,11 @@ export class CouriersController {
     @Post('/')
     async createCourier(@Body() courier_data: CreateCourierDto): Promise<Courier> {
       return this.couriers_service.createCourier(courier_data);
+    }
+    
+    @Put('/')
+    async updateCourier(@Body() update_courier_data: UpdateCourierDto): Promise<Courier> {
+      return this.couriers_service.updateCourier(update_courier_data);
     }
 
 }
