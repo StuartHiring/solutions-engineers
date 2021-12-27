@@ -3,8 +3,10 @@ import { CouriersService } from './couriers.service';
 import { getRepositoryToken } from "@nestjs/typeorm";
 import { Courier } from '../db/entities/courier.entity';
 import { MoreThanOrEqual, Repository } from 'typeorm';
+import { MockType } from 'test/types/mockType';
 
-export const repository_mock_factory = jest.fn(() => ({
+export const repository_mock_factory: () => MockType<Repository<any>> = jest.fn(() => ({
+
   find: jest.fn(entity => entity),
   save: jest.fn(entity => entity),
   findOne: jest.fn(_ => null),
@@ -12,7 +14,8 @@ export const repository_mock_factory = jest.fn(() => ({
 }));
 describe('CouriersService', () => {
   let service: CouriersService;
-  let repository_mock: Repository<Courier>;
+
+  let repository_mock: MockType<Repository<Courier>>;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
