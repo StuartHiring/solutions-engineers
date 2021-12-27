@@ -4,7 +4,5 @@ export class ItemDto {
   @IsNotEmpty()
   @IsNumber()
   readonly volume: number;
-  @IsNotEmpty()
-  @IsNumber()
-  readonly id: number;
+
 }
