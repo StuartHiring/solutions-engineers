@@ -6,7 +6,7 @@ import { MoreThanOrEqual, Repository } from 'typeorm';
 
 export const repository_mock_factory = jest.fn(() => ({
   find: jest.fn(entity => entity),
-  createCourier: jest.fn(entity => entity),
+  save: jest.fn(entity => entity),
 
 }));
 describe('CouriersService', () => {
@@ -33,15 +33,26 @@ describe('CouriersService', () => {
   });
 
 
-  it('should be call find method', () => {
+  it('should call find method', () => {
     service.findCouriers({})
     expect(repository_mock.find).toHaveBeenCalled();
 
   });
-  it('should be call find method with correct parameters', () => {
+  it('should call find method with correct parameters', () => {
     const capacity_required = 45
     service.findCouriers({ capacity_required })
     expect(repository_mock.find).toHaveBeenCalledWith({ where: { available_capacity: MoreThanOrEqual(capacity_required) } });
   });
 
+  it('should call createCourier method', () => {
+    const courier = { id: 1, max_capacity: 45 }
+    service.createCourier(courier)
+    expect(repository_mock.save).toHaveBeenCalled();
+
+  });
+  it('should  call createCourier method with correct parameters', () => {
+    const courier = { id: 1, max_capacity: 45 }
+    service.createCourier(courier)
+    expect(repository_mock.save).toHaveBeenCalledWith({ id: 1, max_capacity: 45, available_capacity: 45 });
+  });
 });
