@@ -6,7 +6,6 @@ import { CouriersService } from './couriers.service';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Courier])],
-
   controllers: [CouriersController],
   providers: [CouriersService]
 })

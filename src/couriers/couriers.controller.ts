@@ -7,7 +7,7 @@ import { FindCourierQueryDto } from './dto/findCourierQuery.dto';
 export class CouriersController {
     constructor(private readonly couriersService: CouriersService) {}
     @Get('/lookup')
-    async findCouriers(@Query() query: FindCourierQueryDto): Promise<Courier[]> {
+    async findCouriers(@Query() query?: FindCourierQueryDto): Promise<Courier[]> {
         return this.couriersService.findCouriers(query)
     }
 }
