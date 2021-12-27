@@ -23,10 +23,17 @@ export class CouriersService {
         return couriers
     }
     async createCourier({ max_capacity, id }: CreateCourierDto) {
+        const courier = await this.couriers_repository.findOne(id)
+
+        if (courier) {
+            throw new ConflictException(`Courier with id ${id} allready exists`)
+
+        }
         return await this.couriers_repository.save({
             max_capacity,
             available_capacity: max_capacity,
             id
         });
     }
+    
 }
