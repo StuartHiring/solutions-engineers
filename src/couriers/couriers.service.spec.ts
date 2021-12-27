@@ -4,42 +4,42 @@ import { getRepositoryToken } from "@nestjs/typeorm";
 import { Courier } from '../db/entities/courier.entity';
 import { MoreThanOrEqual, Repository } from 'typeorm';
 
-export const repositoryMockFactory = jest.fn(() => ({
+export const repository_mock_factory = jest.fn(() => ({
   find: jest.fn(entity => entity),
 }));
 describe('CouriersService', () => {
   let service: CouriersService;
-  let repositoryMock: Repository<Courier>;
+  let repository_mock: Repository<Courier>;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [CouriersService,
-        { provide: getRepositoryToken(Courier), useFactory: repositoryMockFactory },
+        { provide: getRepositoryToken(Courier), useFactory: repository_mock_factory },
 
 
       ],
     }).compile();
 
     service = module.get<CouriersService>(CouriersService);
-    repositoryMock = module.get(getRepositoryToken(Courier));
+    repository_mock = module.get(getRepositoryToken(Courier));
 
   });
 
   it('should be defined', () => {
     expect(service).toBeDefined();
 
-repositoryMock.find()
+repository_mock.find()
   }); it('should be defined', () => {
 
     service.findCouriers({})
-    expect(repositoryMock.find).toHaveBeenCalled();
+    expect(repository_mock.find).toHaveBeenCalled();
 
   });
   it('should be defined', () => {
     const capacity_required = 45
     expect(service).toBeDefined();
     service.findCouriers({ capacity_required })
-    expect(repositoryMock.find).toHaveBeenLastCalledWith({ where: { available_capacity: MoreThanOrEqual(capacity_required) } });
+    expect(repository_mock.find).toHaveBeenLastCalledWith({ where: { available_capacity: MoreThanOrEqual(capacity_required) } });
 
   });
 });

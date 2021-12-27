@@ -8,7 +8,7 @@ import { FindCourierQueryDto } from './dto/findCourierQuery.dto';
 export class CouriersService {
     constructor(
         @InjectRepository(Courier)
-        private couriersRepository: Repository<Courier>,
+        private couriers_repository: Repository<Courier>,
     ) { }
     async findCouriers({ capacity_required }: FindCourierQueryDto): Promise<Courier[]> {
         const query: FindManyOptions = {}
@@ -18,7 +18,7 @@ export class CouriersService {
                 available_capacity: MoreThanOrEqual(capacity_required)
             }
         }
-        const couriers = await this.couriersRepository.find(query)
+        const couriers = await this.couriers_repository.find(query)
         return couriers
     }
 }
