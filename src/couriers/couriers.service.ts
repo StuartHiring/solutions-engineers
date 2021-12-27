@@ -1,8 +1,9 @@
-import { Injectable } from '@nestjs/common';
+import { Body, Injectable, Post } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Courier } from '../db/entities/courier.entity';
 import { FindManyOptions, MoreThanOrEqual, Repository } from 'typeorm';
 import { FindCourierQueryDto } from './dto/findCourierQuery.dto';
+import { CreateCourierDto } from './dto/createCourier.dto';
 
 @Injectable()
 export class CouriersService {
@@ -20,5 +21,12 @@ export class CouriersService {
         }
         const couriers = await this.couriers_repository.find(query)
         return couriers
+    }
+    async createCourier({ max_capacity, id }: CreateCourierDto) {
+        return await this.couriers_repository.save({
+            max_capacity,
+            available_capacity: max_capacity,
+            id
+        });
     }
 }
