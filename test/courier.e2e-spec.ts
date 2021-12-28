@@ -18,12 +18,12 @@ beforeAll(async () => {
             TypeOrmModule.forRoot({
                 type: 'postgres',
                 host: 'localhost',
-                port: 5433,
+                port: 5434,
                 username: 'stuart',
                 password: 'password',
                 database: 'stuartTest',
                 entities: ['./**/*.entity.ts'],
-                synchronize: false,
+                synchronize: true,
             }),
         ],
     }).compile();
