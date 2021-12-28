@@ -1,7 +1,6 @@
-import { Test, TestingModule } from '@nestjs/testing';
+import { Test } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
 import * as request from 'supertest';
-import { AppModule } from './../src/app.module';
 import { CouriersModule } from './../src/couriers/couriers.module';
 import { getRepositoryToken, TypeOrmModule } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
@@ -85,8 +84,8 @@ describe('POST /courier', () => {
     afterEach(async () => {
         await repository.query(`DELETE FROM couriers;`);
     });
-    it('should be able to create a new courier', async () => {
 
+    it('should be able to create a new courier', async () => {
         await request(app.getHttpServer())
             .post('/couriers')
             .send({ id: 1, max_capacity: 50, available_capacity: 50 })
@@ -103,8 +102,8 @@ describe('POST /courier', () => {
             { id: 1, max_capacity: 50, available_capacity: 50 },
         ]);
     });
-    it('should return 409 error when trying to create 2 couriers with same id', async () => {
 
+    it('should return 409 error when trying to create 2 couriers with same id', async () => {
         await request(app.getHttpServer())
             .post('/couriers')
             .send({ id: 1, max_capacity: 50, available_capacity: 50 })
@@ -117,11 +116,10 @@ describe('POST /courier', () => {
             .set('Accept', 'application/json')
             .expect('Content-Type', /json/)
             .expect(409);
-
-
     });
 
 });
+
 describe('PUT /courier', () => {
     const max_capacity = 50
     const available_capacity = 30
@@ -135,6 +133,7 @@ describe('PUT /courier', () => {
     afterEach(async () => {
         await repository.query(`DELETE FROM couriers;`);
     });
+
     it('should be able to remove item from courier', async () => {
 
         await request(app.getHttpServer())
@@ -154,6 +153,7 @@ describe('PUT /courier', () => {
             { id: 1, max_capacity: 50, available_capacity: available_capacity + item_volume },
         ]);
     });
+
     it('should be able to add item to courier', async () => {
 
         await request(app.getHttpServer())
@@ -173,6 +173,4 @@ describe('PUT /courier', () => {
             { id: 1, max_capacity: 50, available_capacity: available_capacity - item_volume },
         ]);
     });
-
-
 });
