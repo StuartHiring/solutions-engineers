@@ -90,6 +90,22 @@ $ npm run test
 # create test db with docker if running for the first time.
 $ docker compose -f docker-compose.test.yml up -d
 $ npm run test:e2e
+```
+
+## Bonus Points :
+ **- Courier capacities vary as they pick and deliver packages. Allow the API to update a courier's available capacity at any moment as they are assigned new packages.**
+   
+   To solve this I created the `PUT /couriers` endpoint
+
+**- We plan to run this service in the AWS environment. Prepare this API to be deployed.**
+
+In this case I believe the only thing to do would be to put the environment variables in the AWS environment.   
 
 
+**- Come up with a smart and scalable output schema that is future-proof. Explain why you think it is so.** 
 
+The reason why i believe this solution is future proof is explained in the description.
+ 
+**- How about race conditions? How would you avoid race conditions if a lookup is being executed and a capacity update comes?**
+
+To solve this issue I would **lock** the database entities, which means that before writing a change it would be necessary to read the record again and check if any changes where made to it since it was last read. If no changes were made, the lock can be released and the changes can be written. If the record has changed in the meantime, you abort the transaction, release the lock and notify the user. There are various options to do this with typeorm.
