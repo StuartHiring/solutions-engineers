@@ -152,3 +152,16 @@ describe('PUT /courier', () => {
         ]);
     });
 });
+describe('DELETE /courier', () => {
+    it('should be able to remove item from courier', async () => {
+        await repository.save([{ id: 1, max_capacity: 40, available_capacity: 40 }]);
+        await request(app.getHttpServer())
+            .delete('/couriers/1')
+            .set('Accept', 'application/json')
+            .expect('Content-Type', /json/)
+            .expect(200);
+
+        const courier = await repository.find({})
+        expect(courier).toEqual([]);
+    });
+});
