@@ -6,13 +6,13 @@ import { CouriersService } from './couriers.service';
 describe('CouriersController', () => {
   let controller: CouriersController;
   let spy_service: CouriersService;
-
   const CourierServiceSpy = {
     provide: CouriersService,
     useFactory: () => ({
       findCouriers: jest.fn(() => { }),
       createCourier: jest.fn(() => { }),
       updateCourier: jest.fn(() => { }),
+      deleteCourier: jest.fn(() => { }),
     }),
   }
 
@@ -23,7 +23,6 @@ describe('CouriersController', () => {
       providers: [CourierServiceSpy],
 
     }).compile();
-
     controller = module.get<CouriersController>(CouriersController);
     spy_service = module.get<CouriersService>(CouriersService);
 
@@ -40,7 +39,6 @@ describe('CouriersController', () => {
 
   it('should call findCouriers with correct parameters', async () => {
     const capacity_required = 45
-
     controller.findCouriers({ capacity_required });
     expect(spy_service.findCouriers).toHaveBeenCalledWith({ capacity_required });
   });
@@ -52,7 +50,6 @@ describe('CouriersController', () => {
 
   it('should call createCourier with correct parameters', async () => {
     const courier = { id: 1, max_capacity: 45 }
-
     controller.createCourier(courier);
     expect(spy_service.createCourier).toHaveBeenCalledWith(courier);
   });
@@ -64,9 +61,15 @@ describe('CouriersController', () => {
   it('should call updateCourier with correct parameters', async () => {
     const update_courier_data = { id: 1, add_item: { volume: 45 } }
     controller.updateCourier(update_courier_data);
-
     expect(spy_service.updateCourier).toHaveBeenCalledWith(update_courier_data);
   });
+ it('should call deleteCourier', async () => {
+    controller.deleteCourier(1);
+    expect(spy_service.deleteCourier).toHaveBeenCalled();
+  });
 
-
+  it('should call deleteCourier with correct parameters', async () => {    
+    controller.deleteCourier(1);
+    expect(spy_service.deleteCourier).toHaveBeenCalledWith(1);
+  });
 });

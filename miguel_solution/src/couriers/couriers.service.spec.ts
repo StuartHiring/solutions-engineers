@@ -9,6 +9,8 @@ export const repository_mock_factory: () => MockType<Repository<any>> = jest.fn(
   find: jest.fn(entity => entity),
   save: jest.fn(entity => entity),
   findOne: jest.fn(_ => null),
+  delete: jest.fn(_ => null),
+
 }));
 
 describe('CouriersService', () => {
@@ -78,5 +80,16 @@ describe('CouriersService', () => {
     const update_courier_data = { id: 1, remove_item: { volume: 5 } }
     await service.updateCourier(update_courier_data)
     expect(repository_mock.save).toHaveBeenCalledWith({ id: 1, max_capacity: 45, available_capacity: 35 });
+  });
+
+
+  it('should  call deleteCourier method', async () => {
+    await service.deleteCourier(1)
+    expect(repository_mock.delete).toHaveBeenCalled();
+  });
+  it('should call deleteCourier method with Correct Parameters', async () => {
+    await service.deleteCourier(1)
+    expect(repository_mock.delete).toHaveBeenCalledWith(1);
+
   });
 });
