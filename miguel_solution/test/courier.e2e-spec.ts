@@ -92,24 +92,14 @@ describe('POST /courier', () => {
             .set('Accept', 'application/json')
             .expect('Content-Type', /json/)
             .expect(201);
-        const { body } = await request(app.getHttpServer())
-            .get('/couriers/lookup?capacity_required=48')
-            .set('Accept', 'application/json')
-            .expect('Content-Type', /json/)
-            .expect(200);
-
-        expect(body).toEqual([
+        const courier = await repository.find({})
+        expect(courier).toEqual([
             { id: 1, max_capacity: 50, available_capacity: 50 },
         ]);
     });
 
     it('should return 409 error when trying to create 2 couriers with same id', async () => {
-        await request(app.getHttpServer())
-            .post('/couriers')
-            .send({ id: 1, max_capacity: 50, available_capacity: 50 })
-            .set('Accept', 'application/json')
-            .expect('Content-Type', /json/)
-            .expect(201);
+        await repository.save({ id: 1, max_capacity: 45, available_capacity: 45 })
         await request(app.getHttpServer())
             .post('/couriers')
             .send({ id: 1, max_capacity: 50, available_capacity: 50 })
@@ -135,7 +125,6 @@ describe('PUT /courier', () => {
     });
 
     it('should be able to remove item from courier', async () => {
-
         await request(app.getHttpServer())
             .put('/couriers')
             .send({ id: 1, remove_item: { volume: item_volume } })
@@ -143,19 +132,13 @@ describe('PUT /courier', () => {
             .expect('Content-Type', /json/)
             .expect(200);
 
-        const { body } = await request(app.getHttpServer())
-            .get('/couriers/lookup')
-            .set('Accept', 'application/json')
-            .expect('Content-Type', /json/)
-            .expect(200);
-
-        expect(body).toEqual([
+        const courier = await repository.find({})
+        expect(courier).toEqual([
             { id: 1, max_capacity: 50, available_capacity: available_capacity + item_volume },
         ]);
     });
 
     it('should be able to add item to courier', async () => {
-
         await request(app.getHttpServer())
             .put('/couriers')
             .send({ id: 1, add_item: { volume: item_volume } })
@@ -163,13 +146,8 @@ describe('PUT /courier', () => {
             .expect('Content-Type', /json/)
             .expect(200);
 
-        const { body } = await request(app.getHttpServer())
-            .get('/couriers/lookup')
-            .set('Accept', 'application/json')
-            .expect('Content-Type', /json/)
-            .expect(200);
-
-        expect(body).toEqual([
+        const courier = await repository.find({})
+        expect(courier).toEqual([
             { id: 1, max_capacity: 50, available_capacity: available_capacity - item_volume },
         ]);
     });
