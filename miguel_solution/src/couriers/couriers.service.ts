@@ -1,7 +1,7 @@
 import { BadRequestException, Body, ConflictException, Injectable, NotFoundException, Post } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Courier } from '../db/entities/courier.entity';
-import { FindManyOptions, MoreThanOrEqual, Repository } from 'typeorm';
+import { DeleteResult, FindManyOptions, MoreThanOrEqual, Repository } from 'typeorm';
 import { FindCourierQueryDto } from './dto/findCourierQuery.dto';
 import { CreateCourierDto } from './dto/createCourier.dto';
 import { UpdateCourierDto } from './dto/updateCourier.dto';
@@ -62,4 +62,7 @@ export class CouriersService {
         return this.couriers_repository.save({ ...courier, available_capacity: current_capacity })
     }
 
+    async deleteCourier(id: number): Promise<DeleteResult> {
+        return await this.couriers_repository.delete(id)
+    }
 }
