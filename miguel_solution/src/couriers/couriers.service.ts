@@ -5,6 +5,7 @@ import { FindManyOptions, MoreThanOrEqual, Repository } from 'typeorm';
 import { FindCourierQueryDto } from './dto/findCourierQuery.dto';
 import { CreateCourierDto } from './dto/createCourier.dto';
 import { UpdateCourierDto } from './dto/updateCourier.dto';
+import { MAX_CAPACITY } from '../constants/couriers.constants';
 
 
 @Injectable()
@@ -28,6 +29,9 @@ export class CouriersService {
     }
 
     async createCourier({ max_capacity, id }: CreateCourierDto) {
+        if (max_capacity > MAX_CAPACITY) {
+            throw new BadRequestException(`Courier capacity cannot be greater than ${MAX_CAPACITY}`)
+        }
         const courier = await this.couriers_repository.findOne(id)
         if (courier) {
             throw new ConflictException(`Courier with id ${id} allready exists`)
