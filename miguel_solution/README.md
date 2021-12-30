@@ -9,8 +9,6 @@ For the database I have used TypeORM with postgresQL https://typeorm.io/#/
 
 If I were to have more time I would probably have created my own express typescript architecture, maybe something similar to this  https://github.com/santiq/bulletproof-nodejs. 
 
-I would also have created a better a better environment configuration.
-
 
 ## Naming convention
 
@@ -99,7 +97,8 @@ $ npm run test:e2e
 
 **- We plan to run this service in the AWS environment. Prepare this API to be deployed.**
 
-In this case I believe the only thing to do would be to put the environment variables in the AWS environment.   
+In this case I believe the only thing to do would be to put the environment variables in the AWS environment. 
+It would also need CORS to be set up apropiatelly to make cross-origin request safely (so that only whitelisted domains can access the API)
 
 
 **- Come up with a smart and scalable output schema that is future-proof. Explain why you think it is so.** 
